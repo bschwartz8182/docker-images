@@ -7,6 +7,9 @@ RUN apt-get -y upgrade
 RUN apt-get install -y git
 RUN apt-get install -y openssh-server
 RUN apt-get install -y openjdk-7-jdk
+ENV PHANTOMJS_BIN "/usr/local/bin/phantomjs"
+RUN npm install -g phantomjs-prebuilt
+
 
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
@@ -26,4 +29,4 @@ RUN ssh-keyscan -t rsa gitlab.com >> /home/jenkins/.ssh/known_hosts
 # Standard SSH port
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["/entrypoint.sh"]
