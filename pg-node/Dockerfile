@@ -17,6 +17,7 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 ENV PHANTOMJS_BIN "/usr/local/bin/phantomjs"
 RUN npm install -g phantomjs-prebuilt
+RUN npm install -g babel-cli
 
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd \
     && mkdir -p /var/run/sshd
