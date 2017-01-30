@@ -3,7 +3,6 @@
 echo "******************** SSH Demon *****************"
 /usr/sbin/sshd
 echo "*************************************************"
-
 echo "Starting mysql server"
-./docker-entrypoint.sh mysqld
+/usr/local/bin/docker-entrypoint.sh mysqld
 
