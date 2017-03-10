@@ -1,8 +1,31 @@
 # This Dockerfile is used to build an image containing an node jenkins slave used for server
 
-FROM teracy/angular-cli
+FROM node:6.9.2
 
 MAINTAINER Biju Joseph <biju.joseph@semanticbits.com>
+
+
+# add more arguments from CI to the image so that `$ env` should reveal more info
+ARG CI_BUILD_ID
+ARG CI_BUILD_REF
+ARG CI_REGISTRY_IMAGE
+ARG CI_PROJECT_NAME
+ARG CI_BUILD_REF_NAME
+ARG CI_BUILD_TIME
+ARG NG_CLI_VERSION=latest
+
+ENV CI_BUILD_ID=$CI_BUILD_ID CI_BUILD_REF=$CI_BUILD_REF CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE \
+    CI_PROJECT_NAME=$CI_PROJECT_NAME CI_BUILD_REF_NAME=$CI_BUILD_REF_NAME CI_BUILD_TIME=$CI_BUILD_TIME
+
+# credits to https://github.com/emmenko/docker-nodejs-karma
+
+RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update && apt-get install -y Xvfb google-chrome-stable \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV DISPLAY :99.0
+ENV CHROME_BIN /usr/bin/google-chrome
 
 RUN apt-get update && apt-get install -y \
     openssh-server \
@@ -29,6 +52,14 @@ RUN mkdir /home/jenkins/.ssh \
     && echo "[default]" >> /home/jenkins/.aws/credentials \
     && chown -R jenkins:jenkins /home/jenkins/.aws \
     && echo "DISPLAY=:99" >> /etc/environment
+
+ADD xvfb.sh /etc/init.d/xvfb
+ADD entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /etc/init.d/xvfb \
+    && chmod +x /entrypoint.sh
+
+RUN npm cache clean && rm -rf ~/.npm
 
 # Standard SSH port
 EXPOSE 22

@@ -1,6 +1,8 @@
 cd jenkins-slave-server
-docker build -t bijujoseph/jenkins-slave-client:0.10 .
-docker push bijujoseph/jenkins-slave-client:0.10
+docker build -t bijujoseph/jenkins-slave-client:0.12 .
+docker push bijujoseph/jenkins-slave-client:0.12
+docker tag bijujoseph/jenkins-slave-client:0.12 bijujoseph/jenkins-slave-client:latest
+docker push bijujoseph/jenkins-slave-client:latest
 
 cd pg-node
 docker build -t bijujoseph/pg-node:0.0.2 .
