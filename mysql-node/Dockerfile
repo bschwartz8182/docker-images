@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     git \
     bzip2 \
     tar \
-    python-yaml
+    python-yaml \
+    wget
     
 RUN mkdir -p /opt/java \
     && cd /opt/java \
