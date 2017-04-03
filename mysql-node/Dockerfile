@@ -3,12 +3,18 @@ MAINTAINER Biju Joseph <biju.joseph@semanticbits.com>
 
 RUN apt-get update && apt-get install -y \
     openssh-server \
-    openjdk-7-jdk \
     curl \
     git \
     bzip2 \
     tar \
     python-yaml
+    
+RUN mkdir -p /opt/java \
+    && cd /opt/java \
+    && wget -P /opt/java --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz \
+    && tar xfs /opt/java/jdk-8u121-linux-x64.tar.gz -C /opt/java/ \
+    && update-alternatives --install /usr/bin/java java /opt/java/jdk1.8.0_121/bin/java 9999 \
+    && update-alternatives --install /usr/bin/javac javac /opt/java/jdk1.8.0_121/bin/javac 9999
 
 RUN curl -O https://bootstrap.pypa.io/get-pip.py \
     && python2.7 get-pip.py \
