@@ -48,6 +48,9 @@ RUN mkdir /root/.ssh
 ARG GIT_SSH_KEY=
 ENV GIT_SSH_KEY $GIT_SSH_KEY
 RUN echo $GIT_SSH_KEY > /root/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/id_rsa
+
+RUN echo "StrictHostKeyChecking no" >> /root/.ssh/config
 
 COPY entrypoint.sh /
 RUN chmod 777 /entrypoint.sh
