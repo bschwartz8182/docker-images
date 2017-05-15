@@ -44,6 +44,11 @@ RUN mkdir /home/jenkins/.ssh \
     && echo "[default]" >> /home/jenkins/.aws/credentials \
     && chown -R jenkins:jenkins /home/jenkins/.aws
 
+RUN mkdir /root/.ssh
+ARG GIT_SSH_KEY=
+ENV GIT_SSH_KEY $GIT_SSH_KEY
+RUN echo $GIT_SSH_KEY > /root/.ssh/id_rsa
+
 COPY entrypoint.sh /
 RUN chmod 777 /entrypoint.sh
 
