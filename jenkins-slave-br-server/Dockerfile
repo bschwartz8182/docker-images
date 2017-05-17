@@ -35,22 +35,14 @@ RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pa
 RUN adduser --quiet jenkins \
     && echo "jenkins:jenkins" | chpasswd
 
-RUN mkdir /home/jenkins/.ssh \
-    && touch /home/jenkins/.ssh/known_hosts \
+RUN su - jenkins -s /bin/bash -c "mkdir /home/jenkins/.ssh"
+RUN touch /home/jenkins/.ssh/known_hosts \
     && ssh-keyscan -t rsa github.com >> /home/jenkins/.ssh/known_hosts \
     && ssh-keyscan -t rsa gitlab.com >> /home/jenkins/.ssh/known_hosts\ \
     && mkdir /home/jenkins/.aws \
     && touch /home/jenkins/.aws/credentials \
     && echo "[default]" >> /home/jenkins/.aws/credentials \
     && chown -R jenkins:jenkins /home/jenkins/.aws
-
-RUN mkdir /root/.ssh
-ARG GIT_SSH_KEY=
-ENV GIT_SSH_KEY $GIT_SSH_KEY
-RUN echo $GIT_SSH_KEY > /root/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/id_rsa
-
-RUN echo "StrictHostKeyChecking no" >> /root/.ssh/config
 
 COPY entrypoint.sh /
 RUN chmod 777 /entrypoint.sh
