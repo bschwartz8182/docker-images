@@ -35,8 +35,8 @@ RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pa
 RUN adduser --quiet jenkins \
     && echo "jenkins:jenkins" | chpasswd
 
-RUN mkdir /home/jenkins/.ssh \
-    && touch /home/jenkins/.ssh/known_hosts \
+RUN su - jenkins -s /bin/bash -c "mkdir /home/jenkins/.ssh"
+RUN touch /home/jenkins/.ssh/known_hosts \
     && ssh-keyscan -t rsa github.com >> /home/jenkins/.ssh/known_hosts \
     && ssh-keyscan -t rsa gitlab.com >> /home/jenkins/.ssh/known_hosts\ \
     && mkdir /home/jenkins/.aws \
