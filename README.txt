@@ -1,19 +1,25 @@
+cd mips-jenkins
+docker build -t sbitsdocker/mips-jenkins:0.2 .
+docker push sbitsdocker/mips-jenkins:0.2
+docker tag sbitsdocker/mips-jenkins:0.2 sbitsdocker/mips-jenkins:latest
+docker push sbitsdocker/mips-jenkins:latest
+
 cd jenkins-slave-server
-docker build -t bijujoseph/jenkins-slave-client:0.12 .
-docker push bijujoseph/jenkins-slave-client:0.12
-docker tag bijujoseph/jenkins-slave-client:0.12 bijujoseph/jenkins-slave-client:latest
-docker push bijujoseph/jenkins-slave-client:latest
+docker build -t sbitsdocker/jenkins-slave-client:0.12 .
+docker push sbitsdocker/jenkins-slave-client:0.12
+docker tag sbitsdocker/jenkins-slave-client:0.12 sbitsdocker/jenkins-slave-client:latest
+docker push sbitsdocker/jenkins-slave-client:latest
 
 cd pg-node
-docker build -t bijujoseph/pg-node:0.0.2 .
-docker push bijujoseph/pg-node:0.0.2
-docker tag bijujoseph/pg-node:0.0.2 bijujoseph/pg-node:latest
-docker push bijujoseph/pg-node:latest
+docker build -t sbitsdocker/pg-node:0.0.2 .
+docker push sbitsdocker/pg-node:0.0.2
+docker tag sbitsdocker/pg-node:0.0.2 sbitsdocker/pg-node:latest
+docker push sbitsdocker/pg-node:latest
 
-docker run -e POSTGRES_PASSWORD=qpp -e POSTGRES_USER=qpp -e POSTGRES_DB=qpp bijujoseph/pg-node
+docker run -e POSTGRES_PASSWORD=qpp -e POSTGRES_USER=qpp -e POSTGRES_DB=qpp sbitsdocker/pg-node
 
 cd mysql-node
-docker build -t bijujoseph/mysql-node:0.0.2 .
-docker tag bijujoseph/mysql-node:0.0.2 bijujoseph/mysql-node:latest
-docker push bijujoseph/mysql-node:latest
-docker push bijujoseph/mysql-node:0.0.2
+docker build -t sbitsdocker/mysql-node:0.0.2 .
+docker tag sbitsdocker/mysql-node:0.0.2 sbitsdocker/mysql-node:latest
+docker push sbitsdocker/mysql-node:latest
+docker push sbitsdocker/mysql-node:0.0.2
