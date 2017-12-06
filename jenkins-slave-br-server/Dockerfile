@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     tar \
     python-yaml \
     wget \
-    libfontconfig
+    libfontconfig \
+    build-essential
     
 RUN mkdir -p /opt/java \
     && cd /opt/java \
