@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     bzip2 \
     tar \
     python-yaml \
-    wget
+    wget \
+    libfontconfig
     
 RUN mkdir -p /opt/java \
     && cd /opt/java \
@@ -21,11 +22,13 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py \
     && python2.7 get-pip.py \
     && pip install awscli
 
-RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
 RUN apt-get update && apt-get install -y nodejs
+
+RUN npm install -g yarn
 ENV PHANTOMJS_BIN "/usr/local/bin/phantomjs"
-RUN npm install -g phantomjs-prebuilt
+RUN yarn global add phantomjs-prebuilt
 RUN npm install -g babel-cli gulp nodemon
 
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd \
